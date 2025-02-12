@@ -5,19 +5,14 @@ Password: **admin**
 
 ## Features
 
-The open-source platform for monitoring and observability
+The open-source systems and service monitoring system
 
-Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data-driven culture:
+Prometheus is a powerful monitoring and alerting toolkit designed for reliability and scalability. It collects and stores metrics as time series data, enabling you to track the behavior and performance of your systems over time:
 
-- **Visualizations:** Fast and flexible client side graphs with a multitude of options. Panel plugins offer many different ways to visualize metrics and logs.
-- **Dynamic Dashboards:** Create dynamic & reusable dashboards with template variables that appear as dropdowns at the top of the dashboard.
-- **Explore Metrics:** Explore your data through ad-hoc queries and dynamic drilldown. Split view and compare different time ranges, queries and data sources side by side.
-- **Explore Logs:** Experience the magic of switching from metrics to logs with preserved label filters. Quickly search through all your logs or streaming them live.
-- **Alerting:** Visually define alert rules for your most important metrics. Grafana will continuously evaluate and send notifications to systems like Slack, PagerDuty, VictorOps, OpsGenie.
-- **Mixed Data Sources:** Mix different data sources in the same graph! You can specify a data source on a per-query basis. This works for even custom datasources.
+- **Data Model:** A flexible multi-dimensional data model with metric names and key/value pairs that enables efficient and granular data organization.
+- **PromQL:** A powerful query language that lets you slice and dice collected time series data to generate ad-hoc graphs, tables, and alerts.
+- **Time Series Collection:** Pull-based metrics collection over HTTP, with support for pushing metrics via an intermediary gateway for short-lived jobs.
+- **Service Discovery:** Automatically discover and monitor services and instances via service discovery or static configuration.
+- **Alerting:** Define alert rules using PromQL expressions and send notifications to services like AlertManager, which handles alert routing, silencing, and aggregation.
+- **Storage:** Efficient local storage that scales to millions of samples per second and integrates with remote storage systems.
 
-## [](https://github.com/grafana/grafana#documentation)Documentation
-
-The Grafana documentation is available at [grafana.com/docs](https://grafana.com/docs/).
-
-## [](https://github.com/grafana/grafana#contributing)

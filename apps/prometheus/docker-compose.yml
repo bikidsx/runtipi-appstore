@@ -1,38 +1,42 @@
 version: "3"
 
 services:
-  grafana:
-    container_name: grafana
-    image: grafana/grafana-oss:11.5.1
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.50.1
     ports:
-      - ${APP_PORT}:3000
+      - ${APP_PORT}:9090
     volumes:
-      - ${APP_DATA_DIR}/data/grafana:/var/lib/grafana
+      - ${APP_DATA_DIR}/data/prometheus:/prometheus
+      - ${APP_DATA_DIR}/config/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
     networks:
       - tipi_main_network
     labels:
       # Main
       traefik.enable: true
-      traefik.http.middlewares.grafana-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.grafana.loadbalancer.server.port: 3000
+      traefik.http.middlewares.prometheus-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.prometheus.loadbalancer.server.port: 9090
       # Web
-      traefik.http.routers.grafana-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.grafana-insecure.entrypoints: web
-      traefik.http.routers.grafana-insecure.service: grafana
-      traefik.http.routers.grafana-insecure.middlewares: grafana-web-redirect
+      traefik.http.routers.prometheus-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.prometheus-insecure.entrypoints: web
+      traefik.http.routers.prometheus-insecure.service: prometheus
+      traefik.http.routers.prometheus-insecure.middlewares: prometheus-web-redirect
       # Websecure
-      traefik.http.routers.grafana.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.grafana.entrypoints: websecure
-      traefik.http.routers.grafana.service: grafana
-      traefik.http.routers.grafana.tls.certresolver: myresolver
+      traefik.http.routers.prometheus.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.prometheus.entrypoints: websecure
+      traefik.http.routers.prometheus.service: prometheus
+      traefik.http.routers.prometheus.tls.certresolver: myresolver
       # Local domain
-      traefik.http.routers.grafana-local-insecure.rule: Host(`grafana.${LOCAL_DOMAIN}`)
-      traefik.http.routers.grafana-local-insecure.entrypoints: web
-      traefik.http.routers.grafana-local-insecure.service: grafana
-      traefik.http.routers.grafana-local-insecure.middlewares: grafana-web-redirect
+      traefik.http.routers.prometheus-local-insecure.rule: Host(`prometheus.${LOCAL_DOMAIN}`)
+      traefik.http.routers.prometheus-local-insecure.entrypoints: web
+      traefik.http.routers.prometheus-local-insecure.service: prometheus
+      traefik.http.routers.prometheus-local-insecure.middlewares: prometheus-web-redirect
       # Local domain secure
-      traefik.http.routers.grafana-local.rule: Host(`grafana.${LOCAL_DOMAIN}`)
-      traefik.http.routers.grafana-local.entrypoints: websecure
-      traefik.http.routers.grafana-local.service: grafana
-      traefik.http.routers.grafana-local.tls: true
+      traefik.http.routers.prometheus-local.rule: Host(`prometheus.${LOCAL_DOMAIN}`)
+      traefik.http.routers.prometheus-local.entrypoints: websecure
+      traefik.http.routers.prometheus-local.service: prometheus
+      traefik.http.routers.prometheus-local.tls: true
       runtipi.managed: true

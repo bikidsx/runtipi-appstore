@@ -1,15 +1,23 @@
 {
   "services": [
     {
-      "name": "grafana",
-      "image": "grafana/grafana-oss:11.5.1",
+      "name": "prometheus",
+      "image": "prom/prometheus:v2.50.1",
       "isMain": true,
-      "internalPort": 3000,
+      "internalPort": 9090,
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/grafana",
-          "containerPath": "/var/lib/grafana"
+          "hostPath": "${APP_DATA_DIR}/data/prometheus",
+          "containerPath": "/prometheus"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/config/prometheus.yml",
+          "containerPath": "/etc/prometheus/prometheus.yml"
         }
+      ],
+      "command": [
+        "--config.file=/etc/prometheus/prometheus.yml",
+        "--storage.tsdb.path=/prometheus"
       ]
     }
   ],
